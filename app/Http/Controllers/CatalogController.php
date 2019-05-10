@@ -30,7 +30,7 @@ class CatalogController extends Controller
         //return response()->json(Client::all());
     }
 
-    public function showOneCatalog($idc,$idp, Request $request)
+    public function updateStock($idc,$idp, Request $request)
     {
         // TODO: Validar los parametros
 
@@ -53,92 +53,16 @@ class CatalogController extends Controller
             return $message;
         }
 
-/*
-        $cp->current_stock = $newStock;
-        $cp->update();
-*/
-/*
-        DB::table('catalog_product')
-            ->update('current_stock', $newStock)
-            ->where(['catalog_id' => $idc,'product_id' => $idp]);
-*/
+
         DB::table('catalog_product')
             ->where('catalog_id',$idc)
             ->where('product_id',$idp)->limit(1)
-            ->update(['current_stock' => $newStock])
-        ;
+            ->update(['current_stock' => $newStock]);
 
-/*
-        CatalogProduct::where('catalog_id','=',$idc)
-            ->where('product_id','=',$idp)->first()->update(['current_stock' => $newStock]);
-        */
         
         $message = (true)?"INFO: STOCK ACTUALIZADO CORRECTAMENTE":"NOK";
 
         if($cs==0) $message .= "<br/>NOTIFICACIÓN: YA HAY STOCK DEL PRODUCTO NUEVAMENTE";
         return $message;
-    }
-
-    public function create(Request $request)
-    {
-        $catalog = Catalog::create($request->all());
-
-        return response()->json($catalog, 201);
-    }
-
-    public function update($id, Request $request)
-    {
-        $catalog = Catalog::findOrFail($id);
-        $catalog->update($request->all());
-
-        return response()->json($catalog, 200);
-    }
-
-    public function delete($id)
-    {
-        Catalog::findOrFail($id)->delete();
-        return response('Deleted Successfully', 200);
-    }
-
-    protected $primaryKey = ['user_id', 'stock_id'];
-    public $incrementing = false;
-
-    /**
-     * Set the keys for a save update query.
-     *
-     * @param  \Illuminate\Database\Eloquent\Builder  $query
-     * @return \Illuminate\Database\Eloquent\Builder
-     */
-    protected function setKeysForSaveQuery(Builder $query)
-    {
-        $keys = $this->getKeyName();
-        if(!is_array($keys)){
-            return parent::setKeysForSaveQuery($query);
-        }
-
-        foreach($keys as $keyName){
-            $query->where($keyName, '=', $this->getKeyForSaveQuery($keyName));
-        }
-
-        return $query;
-    }
-
-    /**
-     * Get the primary key value for a save query.
-     *
-     * @param mixed $keyName
-     * @return mixed
-     */
-    protected function getKeyForSaveQuery($keyName = null)
-    {
-        if(is_null($keyName)){
-            $keyName = $this->getKeyName();
-        }
-
-        if (isset($this->original[$keyName])) {
-            return $this->original[$keyName];
-        }
-
-        return $this->getAttribute($keyName);
     }
 }

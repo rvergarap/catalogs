@@ -18,15 +18,6 @@ $router->get('/', function () use ($router) {
 $router->group(['prefix' => 'api'], function () use ($router) {
     $router->get('catalogs',  ['uses' => 'CatalogController@showAllCatalogs']);
 
-    $router->get('catalogs/{idc}/products/{idp}', ['uses' => 'CatalogController@showOneCatalog']);
-
-
-    $router->get('catalogs/{id}', ['uses' => 'CatalogController@showOneCatalog']);
-
-    $router->post('catalogs', ['uses' => 'CatalogController@create']);
-
-    $router->delete('catalogs/{id}', ['uses' => 'CatalogController@delete']);
-
-    $router->put('catalogs/{id}', ['uses' => 'CatalogController@update']);
+    $router->get('catalogs/{idc}/products/{idp}', ['uses' => 'CatalogController@updateStock']);
 
 });
