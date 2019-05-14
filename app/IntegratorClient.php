@@ -13,7 +13,7 @@ class IntegratorClient extends Model
      *
      * @var array
      */
-    protected $fillable = ['id_integrator', 'id_client'];
+    protected $fillable = ['integrator_id', 'client_id'];
 
     /**
      * The attributes excluded from the model's JSON form.
@@ -21,4 +21,9 @@ class IntegratorClient extends Model
      * @var array
      */
     protected $hidden = [];
+
+    public function clients()
+    {
+        return $this->hasMany('App\Client', 'id', 'client_id');
+    }
 }

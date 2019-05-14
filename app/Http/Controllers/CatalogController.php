@@ -2,32 +2,20 @@
 
 namespace App\Http\Controllers;
 
-use App\Catalog;
-use App\Client;
-use App\Product;
+use App\Integrator;
 use App\CatalogProduct;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\support\Facades\DB;
 
 class CatalogController extends Controller
 {
 
-    public function showAllCatalogs()
+    public function showAllCatalogs(Request $request)
     {
-        //$data = Client::with('catalogs','products')->get();
-        //$data = Catalog::with('products')->findOrFail(1);
-        //$data = Client::with('catalogs')->findOrFail(1);
-
-        $data = DB::table('integrator_client')
-            ->select('client.*','catalog.name')
-            ->join('client','client.id','=','integrator_client.client_id')
-            ->join('catalog','catalog.client_id','=','client.id')
-
-            ->where(['integrator_client.integrator_id' => '1'])
-            ->get();
-        return new JsonResponse($data);
-        //return response()->json(Client::all());
+        // TODO: Validate id
+        $id = (int)$request->id;
+        $data = Integrator::with('clients.catalogs.products')->findOrFail($id);
+        return response()->json($data);
     }
 
     public function updateStock($idc,$idp, Request $request)

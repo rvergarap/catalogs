@@ -21,4 +21,9 @@ class Integrator extends Model
      * @var array
      */
     protected $hidden = [];
+
+    public function clients()
+    {
+        return $this->belongsToMany('App\Client','integrator_client');
+    }
 }

@@ -31,6 +31,6 @@ class Client extends Model
 
     public function products()
     {
-        return $this->hasManyThrough('App\Product', 'App\CatalogProduct');
+        return $this->hasManyThrough('App\CatalogProduct', 'App\Catalog');
     }
 }

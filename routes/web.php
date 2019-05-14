@@ -16,6 +16,7 @@ $router->get('/', function () use ($router) {
 });
 
 $router->group(['prefix' => 'api'], function () use ($router) {
+
     $router->get('catalogs',  ['uses' => 'CatalogController@showAllCatalogs']);
 
     $router->get('catalogs/{idc}/products/{idp}', ['uses' => 'CatalogController@updateStock']);
